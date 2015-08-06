@@ -7,6 +7,7 @@ describe Integer do
   sample_20_99         = Hash.new
   sample_100_999       = Hash.new
   sample_1000_9million = Hash.new
+  sample_1billion      = Hash.new
 
   i = 20
   ["twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"].each do |ten_digit|
@@ -29,8 +30,9 @@ describe Integer do
   sample_1000_9million[1111] = "one thousand one handred eleven"
   sample_1000_9million[900_000_000] = "nine handred million"
   sample_1000_9million[999_999_999] = "nine handred ninety nine million nine handred ninety nine thousand nine handred ninety nine"
-  
-  sample_array = [sample_0_19, sample_20_99, sample_100_999, sample_1000_9million]
+  sample_1billion[1_000_000_000] = "one billion"
+
+  sample_array = [sample_0_19, sample_20_99, sample_100_999, sample_1000_9million, sample_1billion]
 
   describe "success between 0 and around nearly 1 billion" do 
     sample_array.each do |sample|

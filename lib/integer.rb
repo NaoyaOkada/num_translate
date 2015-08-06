@@ -26,7 +26,7 @@ module ConvertNumToEng
     9 => "nine",
   }
 
-  SCALE = ["thousand","million"]
+  SCALE = ["thousand","million", "billion"]
   LIMIT = ("999" * (SCALE.count + 1)).to_i
   
   def to_eng(num)
