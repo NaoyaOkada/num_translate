@@ -25,26 +25,39 @@ module ConvertNumToEng
     8 => "eigh",
     9 => "nine",
   }
-end
-
-class Integer
-  def to_eng
-    english = 
-      case self
-      when 0..12
-        ConvertNumToEng::FIX_NAME[self]
+  
+  def to_eng_under_999(num)
+    english =
+      case num
+      when 0..12 # include edges
+        FIX_NAME[num]
       when 13..19
-        digit = ConvertNumToEng::IRR_NAME[self % 10]
+        digit = IRR_NAME[num % 10]
         digit + "teen"
       when 20..99
-        ten_digit = ConvertNumToEng::IRR_NAME[self / 10]
-        digit     = ConvertNumToEng::FIX_NAME[self % 10]
+        ten_digit = IRR_NAME[num / 10]
+        digit     = FIX_NAME[num % 10]
         
         ten_digit.slice!("u") if "four" == ten_digit
         digit = ""            if "zero" == digit
         
         ten_digit + "ty\s" + digit
+      when 100..999
+        handred_digit = FIX_NAME[num / 100]
+        under_handred = to_eng_under_999(num % 100)
+        
+        under_handred = "" if "zero"== under_handred
+        
+        handred_digit + "\shandred\s" + under_handred
       end
-    english.strip unless english.nil?
+    english.strip
+  end
+
+  module_function :to_eng_under_999
+end
+
+class Integer
+  def to_eng
+    english = ConvertNumToEng::to_eng_under_999(self)
   end
 end
