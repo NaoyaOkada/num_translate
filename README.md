@@ -1,4 +1,6 @@
 arabic num to English num
 
-works like as bellow
->> ruby arabic2english.rb 10
+it works like as bellow
+```ruby
+$ ruby arabic2english.rb 10
+```
