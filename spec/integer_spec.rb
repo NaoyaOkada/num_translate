@@ -40,4 +40,9 @@ describe Integer do
       end
     end
   end
+
+  describe "success minus number" do 
+    it {expect(-1.to_eng).to eq("minus one")}
+    it {expect(-0.to_eng).to eq("zero")}
+  end
 end

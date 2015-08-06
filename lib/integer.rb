@@ -27,8 +27,13 @@ module ConvertNumToEng
   }
 
   SCALE = ["thousand","million"]
-
+  LIMIT = ("999" * (SCALE.count + 1)).to_i
+  
   def to_eng(num)
+    minus_sign = 0 < num ? nil : "minus"
+    num = num.abs
+
+    raise "too big num" if LIMIT < num
     spreded_num_array = num.to_s.gsub(/(\d)(?=(\d{3})+(?!\d))/, '\1,').split(",")
     scale_num = spreded_num_array.count - 2
     
@@ -40,6 +45,7 @@ module ConvertNumToEng
         eng += SCALE[scale_num - i] + "\s" 
       end
     end
+    eng.insert(0, minus_sign + "\s") if minus_sign && 0 != num
     eng.strip
   end
   
@@ -77,6 +83,11 @@ end
 
 class Integer
   def to_eng
-    ConvertNumToEng::to_eng(self)
+    begin 
+      ConvertNumToEng::to_eng(self)
+    rescue => e
+      p e.message
+      self
+    end  
   end
 end
