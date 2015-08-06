@@ -25,6 +25,25 @@ module ConvertNumToEng
     8 => "eigh",
     9 => "nine",
   }
+
+  SCALE = ["thousand","million"]
+
+  def to_eng(num)
+    spreded_num_array = num.to_s.gsub(/(\d)(?=(\d{3})+(?!\d))/, '\1,').split(",")
+    scale_num = spreded_num_array.count - 2
+    
+    eng = ""
+    spreded_num_array.each_with_index do |num, i|
+      next if 0 < i  && 0 == num.to_i
+      eng += to_eng_under_999(num.to_i) + "\s"
+      unless SCALE[scale_num - i].nil? || (scale_num - i) < 0 
+        eng += SCALE[scale_num - i] + "\s" 
+      end
+    end
+    eng.strip
+  end
+  
+  private
   
   def to_eng_under_999(num)
     english =
@@ -53,11 +72,11 @@ module ConvertNumToEng
     english.strip
   end
 
-  module_function :to_eng_under_999
+  module_function :to_eng, :to_eng_under_999
 end
 
 class Integer
   def to_eng
-    english = ConvertNumToEng::to_eng_under_999(self)
+    ConvertNumToEng::to_eng(self)
   end
 end

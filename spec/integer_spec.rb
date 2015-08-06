@@ -3,9 +3,10 @@ require 'spec_helper'
 require 'yaml'
 
 describe Integer do
-  sample_0_19    = YAML.load_file("sample.yml")
-  sample_20_99   = Hash.new
-  sample_100_999 = Hash.new
+  sample_0_19          = YAML.load_file("sample.yml")
+  sample_20_99         = Hash.new
+  sample_100_999       = Hash.new
+  sample_1000_9million = Hash.new
 
   i = 20
   ["twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"].each do |ten_digit|
@@ -24,21 +25,19 @@ describe Integer do
                                                                        sample_0_19[under_undred])
   end
 
-  describe "success between 0 and 19" do 
-    sample_0_19.each do |key, val|
-      it { expect(key.to_i.to_eng).to eq(val) }
-    end
-  end
+  sample_1000_9million[1000] = "one thousand"
+  sample_1000_9million[1111] = "one thousand one handred eleven"
+  sample_1000_9million[900_000_000] = "nine handred million"
+  sample_1000_9million[999_999_999] = "nine handred ninety nine million nine handred ninety nine thousand nine handred ninety nine"
   
-  describe "success between 20 and 99" do
-    sample_20_99.each do |key, val|
-      it { expect(key.to_i.to_eng).to eq(val) }
-    end
-  end
+  sample_array = [sample_0_19, sample_20_99, sample_100_999, sample_1000_9million]
 
-  describe "success between 100 and 999" do 
-    sample_100_999.each do |key, val|
-      it { expect(key.to_i.to_eng).to eq(val) }
+  describe "success between 0 and around nearly 1 billion" do 
+    sample_array.each do |sample|
+      sample.each do |key, val|
+        it { expect(key.to_i.to_eng).to eq(val) }
+        p "#{key}:#{val}"
+      end
     end
   end
 end
