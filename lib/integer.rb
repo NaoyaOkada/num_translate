@@ -14,6 +14,17 @@ module ConvertNumToEng
     11 => 'eleven',
     12 => 'twelve',
   }
+
+  IRR_NAME = {
+    2 => "twen",
+    3 => "thir",
+    4 => "four",
+    5 => "fif",
+    6 => "six",
+    7 => "seven",
+    8 => "eigh",
+    9 => "nine",
+  }
 end
 
 class Integer
@@ -22,6 +33,9 @@ class Integer
       case self
       when 0..12
         ConvertNumToEng::FIX_NAME[self]
+      when 13..19
+        digit = ConvertNumToEng::IRR_NAME[self % 10]
+        digit + "teen"
       end
     english.strip unless english.nil?
   end
