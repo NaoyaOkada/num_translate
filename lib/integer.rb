@@ -36,6 +36,14 @@ class Integer
       when 13..19
         digit = ConvertNumToEng::IRR_NAME[self % 10]
         digit + "teen"
+      when 20..99
+        ten_digit = ConvertNumToEng::IRR_NAME[self / 10]
+        digit     = ConvertNumToEng::FIX_NAME[self % 10]
+        
+        ten_digit.slice!("u") if "four" == ten_digit
+        digit = ""            if "zero" == digit
+        
+        ten_digit + "ty\s" + digit
       end
     english.strip unless english.nil?
   end
